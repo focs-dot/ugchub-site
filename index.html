@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UGC Hub — Производство контента для брендов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-elevated: #131313;
+  --bg-card: #161616;
+  --border: #232323;
+  --border-subtle: #1c1c1c;
+  --text: #f5f5f0;
+  --text-muted: #8a8a85;
+  --text-faint: #555550;
+  --accent: #d4ff3a;
+  --accent-dim: #a8cc2e;
+  --warm: #ff6b3d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 20px 32px;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 16px var(--accent);
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.nav-links a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* HERO */
+.hero {
+  padding: 180px 0 120px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: -200px;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(212, 255, 58, 0.08), transparent 60%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero-tag .live {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(44px, 7vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  margin-bottom: 32px;
+  max-width: 14ch;
+}
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.hero-sub {
+  font-size: 19px;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+.btn {
+  padding: 16px 28px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(212, 255, 58, 0.2); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--text-muted); }
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.stat {
+  background: var(--bg);
+  padding: 32px 24px;
+}
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+@media (max-width: 768px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 140px 0 80px; }
+}
+
+/* MARQUEE */
+.marquee {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--bg-elevated);
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 60px;
+  animation: scroll 35s linear infinite;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--text-muted);
+}
+.marquee-track span::before {
+  content: '◆';
+  color: var(--accent);
+  margin-right: 60px;
+  font-style: normal;
+}
+@keyframes scroll {
+  to { transform: translateX(-50%); }
+}
+
+/* SECTION */
+section { padding: 120px 0; }
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--accent-dim);
+}
+h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  margin-bottom: 24px;
+  max-width: 18ch;
+}
+h2 em { font-style: italic; color: var(--accent); }
+.section-intro {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin-bottom: 64px;
+}
+
+/* SERVICES */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+.service {
+  background: var(--bg);
+  padding: 48px;
+  position: relative;
+  transition: background 0.3s;
+}
+.service:hover { background: var(--bg-elevated); }
+.service-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-bottom: 24px;
+}
+.service-icon {
+  width: 56px; height: 56px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  background: var(--bg-elevated);
+}
+.service h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.service p {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .service { padding: 36px 28px; }
+}
+
+/* PRICING */
+.pricing {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+.tier {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.tier:hover { transform: translateY(-4px); border-color: var(--text-faint); }
+.tier.featured {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(212, 255, 58, 0.05), var(--bg-card) 50%);
+}
+.tier-badge {
+  position: absolute;
+  top: -10px; right: 24px;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.tier-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.tier-price {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.tier-price .currency { font-size: 28px; color: var(--text-muted); }
+.tier-price-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+.tier-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0;
+}
+.tier-features {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.tier-features li {
+  padding: 10px 0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--text);
+}
+.tier-features li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.tier-license {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.5;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid var(--accent-dim);
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.tier.featured .tier-license {
+  background: rgba(212, 255, 58, 0.06);
+  border-left-color: var(--accent);
+}
+.tier-cta {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  text-align: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 100px;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.tier-cta:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+.tier.featured .tier-cta {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.tier.featured .tier-cta:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+/* ADDONS */
+.addons {
+  margin-top: 96px;
+  padding-top: 64px;
+  border-top: 1px solid var(--border);
+}
+.addons-header { margin-bottom: 40px; }
+.addons-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.addons-sub {
+  color: var(--text-muted);
+  font-size: 16px;
+  max-width: 540px;
+}
+.addons-list {
+  border-top: 1px solid var(--border);
+}
+.addon-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 24px;
+  transition: padding 0.3s;
+}
+.addon-row:hover { padding-left: 12px; }
+.addon-name {
+  font-size: 16px;
+  color: var(--text);
+}
+.addon-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  white-space: nowrap;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .addon-row { flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 0; }
+}
+
+/* WHY US */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+.why-item {
+  background: var(--bg);
+  padding: 40px 36px;
+  transition: background 0.3s;
+}
+.why-item:hover { background: var(--bg-elevated); }
+.why-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: rgba(212, 255, 58, 0.08);
+  border: 1px solid rgba(212, 255, 58, 0.2);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.why-item h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.why-item p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+@media (max-width: 900px) {
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-item { padding: 32px 28px; }
+}
+
+/* COMPARE — UGC vs Traditional */
+.compare {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.compare-table {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+.compare-head {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.compare-head > div {
+  padding: 28px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.compare-head > div:first-child { color: var(--text-faint); }
+.compare-head > div:nth-child(2) { color: var(--text-muted); border-left: 1px solid var(--border); }
+.compare-head > div:nth-child(3) { color: var(--accent); border-left: 1px solid var(--border); position: relative; }
+.compare-head > div:nth-child(3)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(212, 255, 58, 0.04);
+  pointer-events: none;
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  transition: background 0.2s;
+}
+.compare-row:hover { background: var(--bg-elevated); }
+.compare-row:last-child { border-bottom: none; }
+.compare-row > div {
+  padding: 24px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+.compare-row > div:first-child {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+}
+.compare-row > div:nth-child(2) {
+  color: var(--text-muted);
+  border-left: 1px solid var(--border);
+}
+.compare-row > div:nth-child(3) {
+  color: var(--text);
+  border-left: 1px solid var(--border);
+  background: rgba(212, 255, 58, 0.025);
+  font-weight: 500;
+}
+@media (max-width: 768px) {
+  .compare-head, .compare-row { grid-template-columns: 1fr; }
+  .compare-head > div, .compare-row > div { border-left: none !important; padding: 16px 20px; }
+  .compare-row > div:first-child { padding-top: 20px; padding-bottom: 8px; }
+  .compare-row > div:nth-child(2)::before { content: 'Традиционная реклама: '; color: var(--text-faint); margin-right: 6px; font-size: 12px; }
+  .compare-row > div:nth-child(3)::before { content: 'UGC: '; color: var(--accent); margin-right: 6px; font-size: 12px; }
+}
+
+/* FOR WHOM */
+.for-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.for-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 36px 28px;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+  overflow: hidden;
+}
+.for-card:hover { transform: translateY(-4px); border-color: var(--accent-dim); }
+.for-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.for-card:hover::before { transform: scaleX(1); }
+.for-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.for-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.for-card p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.for-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.for-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+}
+@media (max-width: 1024px) {
+  .for-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .for-grid { grid-template-columns: 1fr; }
+}
+
+/* FAQ */
+.faq-wrap {
+  max-width: 880px;
+  margin: 24px auto 0;
+}
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: left;
+  padding: 28px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  transition: color 0.2s, padding 0.3s;
+}
+.faq-q:hover { color: var(--accent); padding-left: 12px; }
+.faq-toggle {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
+  color: var(--text-muted);
+  transition: all 0.3s;
+}
+.faq-item.open .faq-toggle {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  transform: rotate(45deg);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.faq-item.open .faq-a {
+  max-height: 400px;
+  padding: 0 0 32px;
+}
+@media (max-width: 600px) {
+  .faq-q { font-size: 18px; padding: 22px 0; }
+}
+
+/* PROCESS */
+.process-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.process-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 2fr;
+  gap: 32px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+  transition: padding 0.3s;
+}
+.process-row:hover { padding-left: 16px; }
+.process-day {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent-dim);
+  letter-spacing: 0.1em;
+}
+.process-title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.process-desc { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+@media (max-width: 768px) {
+  .process-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+}
+
+/* CTA */
+.cta-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  margin: 80px auto 120px;
+  max-width: 1200px;
+  padding: 80px 48px;
+  text-align: center;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center top, rgba(212, 255, 58, 0.12), transparent 60%);
+  pointer-events: none;
+}
+.cta-section h2 {
+  margin: 0 auto 24px;
+  max-width: 100%;
+}
+.cta-section p {
+  color: var(--text-muted);
+  font-size: 18px;
+  max-width: 540px;
+  margin: 0 auto 40px;
+}
+.cta-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 60px 0 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 60px;
+}
+.footer-brand { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 16px; }
+.footer-tagline { color: var(--text-muted); font-size: 14px; max-width: 320px; line-height: 1.6; }
+.footer-col h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.footer-col a {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  padding: 6px 0;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-faint);
+  font-family: 'JetBrains Mono', monospace;
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
+}
+
+/* Reveal animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+.reveal:nth-child(1) { animation-delay: 0.05s; }
+.reveal:nth-child(2) { animation-delay: 0.15s; }
+.reveal:nth-child(3) { animation-delay: 0.25s; }
+.reveal:nth-child(4) { animation-delay: 0.35s; }
+.reveal:nth-child(5) { animation-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      UGC Hub
+    </div>
+    <div class="nav-links">
+      <a href="#services">Услуги</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#why">Почему мы</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#contact" class="nav-cta">Обсудить проект</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-tag reveal">
+      <span class="live"></span>
+      Открыты для новых проектов · Отвечаем в течение 2 часов
+    </div>
+    <h1 class="reveal">Контент, которому <em>верят.</em><br>Видео, которое <em>продаёт.</em></h1>
+    <p class="hero-sub reveal">UGC-агентство полного цикла. Подбираем креаторов под вашу аудиторию, снимаем по сценарию и сдаём готовые видео для маркетплейсов, таргета и соцсетей за 5–7 дней.</p>
+    <div class="hero-actions reveal">
+      <a href="#pricing" class="btn btn-primary">Смотреть тарифы →</a>
+      <a href="#why" class="btn btn-secondary">Почему UGC Hub</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="stat"><div class="stat-num">от 25k</div><div class="stat-label">стартовый пакет</div></div>
+      <div class="stat"><div class="stat-num">5–7</div><div class="stat-label">дней под ключ</div></div>
+      <div class="stat"><div class="stat-num">48ч</div><div class="stat-label">срочный режим</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">прозрачная цена</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Wildberries</span><span>Ozon</span><span>Reels</span><span>VK Видео</span><span>TikTok</span><span>Telegram Ads</span><span>Yandex Direct</span><span>YouTube Shorts</span>
+    <span>Wildberries</span><span>Ozon</span><span>Reels</span><span>VK Видео</span><span>TikTok</span><span>Telegram Ads</span><span>Yandex Direct</span><span>YouTube Shorts</span>
+  </div>
+</div>
+
+<section class="compare">
+  <div class="container">
+    <div class="section-label">Зачем UGC</div>
+    <h2>Контент, который <em>не пролистывают</em></h2>
+    <p class="section-intro">Брендовая реклама работает всё хуже: пользователи научились отличать её за доли секунды и листают дальше. UGC выигрывает там, где традиционный продакшн проигрывает — в доверии, скорости и стоимости.</p>
+    
+    <div class="compare-table">
+      <div class="compare-head">
+        <div>Параметр</div>
+        <div>Традиционная реклама</div>
+        <div>UGC</div>
+      </div>
+      <div class="compare-row">
+        <div>Стоимость одного видео</div>
+        <div>от 150 000 ₽ за продакшн-смену</div>
+        <div>от 8 000 ₽ за готовый ролик</div>
+      </div>
+      <div class="compare-row">
+        <div>Сроки производства</div>
+        <div>3–6 недель: препродакшн, съёмка, постпродакшн</div>
+        <div>5–7 дней под ключ</div>
+      </div>
+      <div class="compare-row">
+        <div>Восприятие зрителем</div>
+        <div>Распознаётся как реклама за 1–2 секунды</div>
+        <div>Воспринимается как личный отзыв</div>
+      </div>
+      <div class="compare-row">
+        <div>Тестирование гипотез</div>
+        <div>Дорого: каждый вариант — новая смена</div>
+        <div>Гибко: 5–10 хуков параллельно в одном пакете</div>
+      </div>
+      <div class="compare-row">
+        <div>Площадки размещения</div>
+        <div>ТВ, наружная реклама, баннеры</div>
+        <div>Reels, Shorts, маркетплейсы, таргет</div>
+      </div>
+      <div class="compare-row">
+        <div>Естественность поведения</div>
+        <div>Постановочные актёры, выверенные кадры</div>
+        <div>Реальные люди в реальных ситуациях</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="for">
+  <div class="container">
+    <div class="section-label">Для кого</div>
+    <h2>Решения <em>под индустрию</em></h2>
+    <p class="section-intro">UGC работает по-разному в зависимости от ниши. Подбираем формат, креаторов и площадки исходя из специфики вашего бизнеса.</p>
+    
+    <div class="for-grid">
+      <div class="for-card">
+        <div class="for-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <h3>Маркетплейсы</h3>
+        <p>Видео для карточек товаров на Wildberries и Ozon. Поднимают конверсию там, где статичные фото уже не работают.</p>
+        <div class="for-tags">
+          <span class="for-tag">Wildberries</span>
+          <span class="for-tag">Ozon</span>
+          <span class="for-tag">Я.Маркет</span>
+        </div>
+      </div>
+      
+      <div class="for-card">
+        <div class="for-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
+        </div>
+        <h3>D2C и e-commerce бренды</h3>
+        <p>Креативы для перформанс-рекламы в Telegram Ads, VK Реклама, Yandex Direct. Тестируем гипотезы и масштабируем рабочие.</p>
+        <div class="for-tags">
+          <span class="for-tag">Telegram Ads</span>
+          <span class="for-tag">VK Реклама</span>
+          <span class="for-tag">Я.Директ</span>
+        </div>
+      </div>
+      
+      <div class="for-card">
+        <div class="for-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Beauty, Health, Lifestyle</h3>
+        <p>Аутентичные видео-отзывы и обзоры для категорий, где доверие к продукту критично. Креаторы из ЦА вашего бренда.</p>
+        <div class="for-tags">
+          <span class="for-tag">Косметика</span>
+          <span class="for-tag">БАДы</span>
+          <span class="for-tag">Wellness</span>
+        </div>
+      </div>
+      
+      <div class="for-card">
+        <div class="for-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3>Сервисы и услуги</h3>
+        <p>Видео-кейсы клиентов, обзоры процесса, отзывы пользователей. Подходит для образования, фитнеса, доставки, финтеха.</p>
+        <div class="for-tags">
+          <span class="for-tag">EdTech</span>
+          <span class="for-tag">Fitness</span>
+          <span class="for-tag">Food Tech</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="section-label">Услуги</div>
+    <h2>Что мы <em>делаем</em></h2>
+    <p class="section-intro">Шесть форматов, которыми закрываем 95% задач брендов в e-commerce, FMCG и услугах. Под каждый — отобранный пул креаторов.</p>
+    
+    <div class="services-grid">
+      <div class="service">
+        <div class="service-num">01</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M9 21h6M12 17v4"/></svg>
+        </div>
+        <h3>Видео для карточек товаров</h3>
+        <p>Динамичные ролики 15–30 секунд для Wildberries, Ozon и других маркетплейсов. Поднимают конверсию карточки в среднем на 25–40%.</p>
+      </div>
+      <div class="service">
+        <div class="service-num">02</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="18" r="1.5"/></svg>
+        </div>
+        <h3>Reels и короткие видео</h3>
+        <p>Контент для Instagram, VK Клипов и YouTube Shorts. Полный цикл: от концепта и сценария до финального монтажа с титрами.</p>
+      </div>
+      <div class="service">
+        <div class="service-num">03</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Видео-отзывы</h3>
+        <p>Аутентичные ролики от реальных пользователей вашего продукта. Для лендингов, рекламы и доказательной базы продукта.</p>
+      </div>
+      <div class="service">
+        <div class="service-num">04</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <h3>Креативы для перформанс-рекламы</h3>
+        <p>Видео и статика под Telegram Ads, VK Реклама, Yandex Direct. Тестируем 5–10 гипотез параллельно — оставляем только рабочие.</p>
+      </div>
+      <div class="service">
+        <div class="service-num">05</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Распаковки и обзоры</h3>
+        <p>Развёрнутые видео-обзоры продукта от креаторов, чьему мнению доверяет ваша аудитория. От 2 до 5 минут готового контента.</p>
+      </div>
+      <div class="service">
+        <div class="service-num">06</div>
+        <div class="service-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Контент-пакеты под кампанию</h3>
+        <p>Готовый набор материалов под запуск или сезонную акцию: видео, фото, тексты, адаптации под платформы. Один продюсер, один счёт.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="pricing">
+  <div class="container">
+    <div class="section-label">Тарифы</div>
+    <h2>Прозрачные <em>пакеты.</em><br>Без скрытых доплат.</h2>
+    <p class="section-intro">Фиксированная цена на этапе брифа. Все правки и согласования включены. Договор и закрывающие документы для юрлиц.</p>
+    
+    <div class="pricing-grid">
+      <div class="tier">
+        <div class="tier-name">START</div>
+        <div class="tier-price">25<span class="currency">k ₽</span></div>
+        <div class="tier-price-note">Идеально для теста формата и первых запусков</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li>3 UGC-видео до 60 секунд в Full HD</li>
+          <li>Подбор референсов из топ-5 конкурентов</li>
+          <li>Разработка сценариев и хуков</li>
+          <li>1 концепт-вариация на каждое видео</li>
+          <li>Базовый монтаж и трендовая музыка</li>
+          <li>Субтитры в стиле соцсетей</li>
+          <li>1 круг правок</li>
+        </ul>
+        <div class="tier-license">Права: использование в органических соцсетях бренда (бессрочно)</div>
+        <a href="https://t.me/ugchub?text=Здравствуйте!%20Интересует%20тариф%20START" class="tier-cta">Выбрать пакет</a>
+      </div>
+      
+      <div class="tier featured">
+        <div class="tier-badge">ХИТ</div>
+        <div class="tier-name">OPTIMAL</div>
+        <div class="tier-price">55<span class="currency">k ₽</span></div>
+        <div class="tier-price-note">Комплексное решение для активного продвижения и таргета</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li>5 UGC-видео до 60 секунд в Full HD</li>
+          <li>2 варианта хука для каждого видео под А/Б-тест</li>
+          <li>Разработка сценариев под каждый формат</li>
+          <li>Съёмка в нативной обстановке креатора</li>
+          <li>Динамичный монтаж с переходами и саунд-дизайном</li>
+          <li>Субтитры в стиле соцсетей</li>
+          <li>2 круга правок</li>
+        </ul>
+        <div class="tier-license">Права: лицензия на платную рекламу сроком на 6 месяцев</div>
+        <a href="https://t.me/ugchub?text=Здравствуйте!%20Интересует%20тариф%20OPTIMAL" class="tier-cta">Выбрать пакет</a>
+      </div>
+      
+      <div class="tier">
+        <div class="tier-name">SCALE</div>
+        <div class="tier-price">110<span class="currency">k ₽</span></div>
+        <div class="tier-price-note">Премиум-решение для серьёзных рекламных кампаний</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li>10 UGC-видео разных форматов: обзоры, туториалы, лайфстайл</li>
+          <li>Стратегия и контент-план на 3 месяца вперёд</li>
+          <li>Подбор креаторов под аудиторию бренда</li>
+          <li>Сценарии под каждый формат отдельно</li>
+          <li>Приоритетные сроки выполнения</li>
+          <li>Профессиональный монтаж со звуком и цветокором</li>
+          <li>3 круга правок на каждое видео</li>
+        </ul>
+        <div class="tier-license">Права: лицензия на платную рекламу сроком на 6 месяцев</div>
+        <a href="https://t.me/ugchub?text=Здравствуйте!%20Интересует%20тариф%20SCALE" class="tier-cta">Выбрать пакет</a>
+      </div>
+    </div>
+
+    <div class="addons">
+      <div class="addons-header">
+        <div class="section-label" style="margin-bottom:12px;">Дополнительно</div>
+        <h3 class="addons-title">Add-ons под нестандартные задачи</h3>
+        <p class="addons-sub">Любой пакет можно расширить — добавляем по фиксированному прайсу без скрытых наценок.</p>
+      </div>
+      <div class="addons-list">
+        <div class="addon-row">
+          <div class="addon-name">Дополнительное видео сверх пакета</div>
+          <div class="addon-price">12 000 ₽ / шт.</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Дополнительный хук под А/Б-тест</div>
+          <div class="addon-price">4 000 ₽ / шт.</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Дополнительный круг правок</div>
+          <div class="addon-price">3 000 ₽ / видео</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Фото-сет продукта (3–5 эстетичных фото)</div>
+          <div class="addon-price">8 000 ₽</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Срочное изготовление за 48 часов</div>
+          <div class="addon-price">+40% к стоимости пакета</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Аренда студии (Москва, СПб)</div>
+          <div class="addon-price">от 5 000 ₽</div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-name">Привлечённая модель или актёр</div>
+          <div class="addon-price">от 8 000 ₽ / смена</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="container">
+    <div class="section-label">Почему UGC Hub</div>
+    <h2>Шесть причин <em>работать</em><br>именно с нами</h2>
+    <p class="section-intro">Мы новое агентство — и это наше преимущество. Каждому клиенту достаётся внимание основателя, а не передача по конвейеру через младших менеджеров.</p>
+    
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <h3>Фиксированная цена</h3>
+        <p>Согласовываем стоимость на этапе брифа и не меняем её в процессе. Никаких «мы тут переработали — доплатите». Цена в договоре равна цене в счёте.</p>
+      </div>
+      
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11l-3 3-3-3"/></svg>
+        </div>
+        <h3>Прямой контакт с продюсером</h3>
+        <p>Без аккаунт-менеджеров и испорченного телефона. Вы общаетесь напрямую с человеком, который снимает и монтирует ваш контент.</p>
+      </div>
+      
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <h3>Передача прав в договоре</h3>
+        <p>Чётко прописываем, где и сколько вы можете использовать контент. От бессрочной лицензии для соцсетей до полной передачи прав под рекламу.</p>
+      </div>
+      
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Реалистичные сроки</h3>
+        <p>5–7 дней на стандартный пакет. Если горит — есть режим срочного производства за 48 часов с прозрачной наценкой 30%, а не «поговорим о цене».</p>
+      </div>
+      
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Сценарии перед съёмкой</h3>
+        <p>Утверждаем хуки и тексты до того, как нажимаем «запись». Клиент видит, что получит, и не зависит от вкуса креатора в момент съёмки.</p>
+      </div>
+      
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Договор и закрывающие документы</h3>
+        <p>Работаем с юрлицами и ИП с полным комплектом документов. Акты и счета приходят вовремя — бухгалтерия будет довольна.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="container">
+    <div class="section-label">Как мы работаем</div>
+    <h2>Пять шагов <em>от заявки</em><br>до готового контента</h2>
+    
+    <div class="process-list">
+      <div class="process-row">
+        <div class="process-day">STEP 01</div>
+        <div class="process-title">Брифинг</div>
+        <div class="process-desc">Заполняете анкету или присылаете готовое ТЗ. Уточняем продукт, целевую аудиторию, площадки размещения и желаемый стиль контента.</div>
+      </div>
+      <div class="process-row">
+        <div class="process-day">STEP 02</div>
+        <div class="process-title">Договор и оплата</div>
+        <div class="process-desc">Подписываем договор и фиксируем условия. Работаем по предоплате 50% или 100% — на выбор клиента.</div>
+      </div>
+      <div class="process-row">
+        <div class="process-day">STEP 03</div>
+        <div class="process-title">Сценарии</div>
+        <div class="process-desc">Разрабатываем идеи, хуки и тексты для каждого видео. Согласовываем сценарии до съёмок — никаких сюрпризов на этапе сдачи.</div>
+      </div>
+      <div class="process-row">
+        <div class="process-day">STEP 04</div>
+        <div class="process-title">Производство</div>
+        <div class="process-desc">Получаем продукт, проводим съёмки в нужных локациях, выполняем монтаж со звуком, цветокоррекцией и субтитрами.</div>
+      </div>
+      <div class="process-row">
+        <div class="process-day">STEP 05</div>
+        <div class="process-title">Финальный результат</div>
+        <div class="process-desc">Передаём ссылки на готовые ролики и все согласованные материалы. По запросу — с исходниками для будущих нарезок.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Вопросы</div>
+    <h2>Что обычно <em>спрашивают</em></h2>
+    <p class="section-intro">Если ответа на ваш вопрос здесь нет — напишите в Telegram, ответим в течение пары часов в рабочее время.</p>
+    
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>А если контент не подойдёт под наш бренд?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Сценарии и хуки утверждаем до съёмки — на этом этапе видно, попадаем ли мы в тон бренда. На тарифе START включён один круг правок, на OPTIMAL — два, на SCALE — три на каждое видео. Если требуется больше — доступен add-on «дополнительный круг правок» за 3 000 ₽. Мы заинтересованы в том, чтобы клиент остался на повторный заказ.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Как используется готовый контент юридически?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Условия передачи прав чётко прописаны в каждом тарифе и фиксируются договором. START — бессрочное использование в органических соцсетях бренда. OPTIMAL и SCALE — лицензия на платную рекламу сроком на 6 месяцев. Никаких претензий от креаторов задним числом не возникнет.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Кто снимает видео — креаторы или ваша команда?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Под каждый проект подбираем креаторов из нашей базы — в зависимости от ниши, стиля и целевой аудитории. Они снимают на свою технику в нативной обстановке, поэтому контент выглядит органично, а не как студийная съёмка. Монтаж, цветокоррекция, звук и субтитры — на стороне креатора с финальной проверкой нашим продюсером.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Что если я хочу видео сверх пакета?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Любой тариф можно расширить дополнительными видео по фиксированной цене 12 000 ₽ за ролик. Переход на следующий тариф также возможен — пересчитаем стоимость с учётом уже выполненной работы. Никаких штрафов за апгрейд.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Как быстро можно начать?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">После согласования брифа и оплаты запускаем работу в тот же день. Стандартный срок — 5–7 дней до первых готовых видео на тарифе START, 10–14 дней на OPTIMAL и SCALE. Если горит — есть режим срочного производства за 48 часов с наценкой 40%.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Работаете с юрлицами и ИП?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Да, работаем с юрлицами и ИП на основании договора с полным комплектом закрывающих документов: счёт, акт, УПД. Также возможна оплата как с физлицом по договору ГПХ. Принимаем оплату с расчётного счёта, на карту, по реквизитам.</div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Можно ли заказать только сценарии без съёмки?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">Да, разработка сценариев и хуков под UGC — отдельная услуга. Стоимость согласовывается по объёму. Это удобно, если у вас уже есть свои креаторы или продакшн-команда, но нужна помощь с креативом и идеями.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="cta-section" id="contact">
+    <h2 style="margin-left:auto;margin-right:auto;">Готовы запустить продажи<br>через нативный <em>контент</em>?</h2>
+    <p>Опишите задачу — пришлём подборку релевантных кейсов и подберём пакет под ваш бюджет в течение 24 часов.</p>
+    <div class="cta-actions">
+      <a href="https://t.me/ugchub" class="btn btn-primary">Написать в Telegram</a>
+      <a href="mailto:hello@ugchub.ru" class="btn btn-secondary">Оставить заявку на почте</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">UGC Hub</div>
+        <p class="footer-tagline">Агентство производства контента для брендов. Работаем с e-commerce, FMCG и сервисами в России и СНГ.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Услуги</h4>
+        <a href="#services">Видео для маркетплейсов</a>
+        <a href="#services">Reels и Shorts</a>
+        <a href="#services">Перформанс-креативы</a>
+        <a href="#services">Контент-пакеты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <a href="#why">Почему UGC Hub</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Связь</h4>
+        <a href="mailto:hello@ugchub.ru">hello@ugchub.ru</a>
+        <a href="https://t.me/ugchub">@ugchub в Telegram</a>
+        <a href="https://instagram.com/ugchub">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UGC Hub. Все права защищены.</span>
+      <span>Сделано вручную, без ИИ-шаблонов</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>
